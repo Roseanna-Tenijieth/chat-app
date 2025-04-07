@@ -1,4 +1,4 @@
-# login-starter Server
+# chat Server
 
 ## Getting Started
 
@@ -14,7 +14,7 @@ Create a .env file at the top level of the client folder.
 
 ```
 PORT=8000
-MONGODB_URL=mongodb://localhost:27017/login-starter
+MONGODB_URL=mongodb://localhost:27017/chat
 JWT_SECRET=secret
 COOKIE_SECRET=secret
 TOKEN_EXPIRATION=2592000

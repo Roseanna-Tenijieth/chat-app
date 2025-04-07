@@ -1,4 +1,4 @@
-# login-starter Client
+# chat Client
 
 ## Getting Started
 
