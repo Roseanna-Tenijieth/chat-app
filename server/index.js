@@ -5,6 +5,8 @@ import mongoose from "mongoose"
 import session from "express-session"
 import cookieParser from "cookie-parser"
 import passport from "passport"
+import { createServer } from 'node:http'
+import { Server } from 'socket.io'
 import "./strategies/jwtStrategy.js" // Passport JWT strategy
 import "./strategies/localStrategy.js" // Passport local strategy
 import authRouter from "./auth/index.js"
@@ -17,6 +19,9 @@ const sessionSecret = process.env.SESSION_SECRET || "secret"
 const app = express()
 app.use(express.json())
 app.use(cookieParser(cookieSecret))
+
+const server = createServer(app)
+const io = new Server(server)
 
 // CORS
 // Get whitelisted domains from env
@@ -48,22 +53,26 @@ app.use(passport.session())
 app.use("/auth", authRouter)
 app.use("/users", userRouter)
 
-app.all('*', (req, res) =>{
+app.all('*', (req, res) => {
   res.status(404).json({
-      success: false,
-      data: '404'
+    success: false,
+    data: '404'
   })
+})
+
+io.on('connection', (socket) => {
+  console.log('a user connected')
 })
 
 try {
   const mongoURL = process.env.MONGODB_URL || ""
   await mongoose.connect(mongoURL)
-  console.log(`Login starter connected to database ${mongoURL}`)
+  console.log(`Chat App connected to database ${mongoURL}`)
 
   app.listen(port, () => {
-    console.log(`Login starter listening on port ${port}`)
+    console.log(`Chat App listening on port ${port}`)
   })
 }
-catch(err) {
+catch (err) {
   console.log(err)
 }
