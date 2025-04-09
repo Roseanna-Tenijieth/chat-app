@@ -21,9 +21,14 @@ app.use(express.json())
 app.use(cookieParser(cookieSecret))
 
 const server = createServer(app)
-const io = new Server(server)
+const io = new Server(server, {
+  cors: {
+    origin: process.env.WHITELISTED_DOMAINS, //works for only one domain
+    methods: ["GET", "POST"]
+  }
+})
 
-// CORS
+// Express CORS
 // Get whitelisted domains from env
 const whitelist = process.env.WHITELISTED_DOMAINS
   ? process.env.WHITELISTED_DOMAINS.split(",")
@@ -69,7 +74,7 @@ try {
   await mongoose.connect(mongoURL)
   console.log(`Chat App connected to database ${mongoURL}`)
 
-  app.listen(port, () => {
+  server  .listen(port, () => {
     console.log(`Chat App listening on port ${port}`)
   })
 }
