@@ -66,7 +66,9 @@ app.all('*', (req, res) => {
 })
 
 io.on('connection', (socket) => {
-  console.log('a user connected')
+  socket.on('chat message', (msg) => {
+    console.log('message: ' + msg)
+  }) 
 })
 
 try {
@@ -74,10 +76,10 @@ try {
   await mongoose.connect(mongoURL)
   console.log(`Chat App connected to database ${mongoURL}`)
 
-  server  .listen(port, () => {
+  server.listen(port, () => {
     console.log(`Chat App listening on port ${port}`)
   })
 }
 catch (err) {
   console.log(err)
-}
+} 
