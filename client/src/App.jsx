@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Routes, Route } from "react-router"
+import { socket } from './socket'
 import PrivateRoute from "./PrivateRoute"
 import Home from "./Home"
 import Dashboard from "./Dashboard"

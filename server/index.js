@@ -65,8 +65,22 @@ app.all('*', (req, res) => {
   })
 })
 
+const userSocketMap = {}
+
 io.on('connection', (socket) => {
-  console.log('user connected')
+  // console.log('connection', socket.id)
+  // console.log('connection handshake', socket.handshake)
+
+  //Get user id
+  // const userId = socket.handshake.query.userId
+  // if (userId != 'undefined') {
+  //   //Add user list
+  //   userSocketMap[userId] = socket.id
+  //   //Broadcast user list
+  //   io.emit('getOnlineUsers', Object.keys(userSocketMap))
+  // }
+  // console.log('userSocketMap', userSocketMap, Object.keys(userSocketMap))
+
   socket.on('room-1', (msg) => {
     console.log('message: ' + msg)
     io.emit('room-1', msg)

@@ -2,11 +2,22 @@ import { useState, useEffect } from 'react'
 import io from 'socket.io-client'
 
 const Home = () => {
-  const socket = io(import.meta.env.VITE_API_SERVER_URL)
+  const userId = sessionStorage.getItem('userId')
+  console.log('userId', userId)
+  const socket = io(import.meta.env.VITE_API_SERVER_URL, {
+    query: {
+      userId
+    }
+  })
 
   const [ room, setRoom ] = useState('room-1')
-  const [messages, setMessages] = useState([])
-  const [message, setMessage] = useState('')
+  const [ messages, setMessages ] = useState([])
+  const [ message, setMessage ] = useState('')
+  const [ users, setUsers ] = useState([])
+
+  // socket.on('getOnlineUsers', (socketUsers) => {
+  //   setUsers(socketUsers)
+  // })
 
   useEffect(() => {
     console.log('room', room)
