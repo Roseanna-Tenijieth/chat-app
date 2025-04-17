@@ -67,10 +67,18 @@ app.all('*', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('user connected')
-  socket.on('chat message', (msg) => {
+  socket.on('room-1', (msg) => {
     console.log('message: ' + msg)
-    io.emit('chat message', msg)
-  }) 
+    io.emit('room-1', msg)
+  })
+  socket.on('room-2', (msg) => {
+    console.log('message: ' + msg)
+    io.emit('room-2', msg)
+  })
+  socket.on('room-3', (msg) => {
+    console.log('message: ' + msg)
+    io.emit('room-3', msg)
+  })
 })
 
 try {

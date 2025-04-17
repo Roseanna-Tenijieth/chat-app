@@ -1,41 +1,65 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import io from 'socket.io-client'
 
 const Home = () => {
   const socket = io(import.meta.env.VITE_API_SERVER_URL)
 
+  const [ room, setRoom ] = useState('room-1')
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState('')
 
-  socket.on('chat message', (msg) => {
+  useEffect(() => {
+    console.log('room', room)
+  }, [room])
+  
+
+  //Listen for room 1 events
+  socket.on(room, (msg) => {
     setMessages([...messages, msg])
   })
 
   const handleMessage = () => {
     //Emit message
-    socket.emit('chat message', message)
+    socket.emit(room, message)
     //Clear message
     setMessage('')
   }
   return (
     <div>
       <h1>Home</h1>
-      
-            {messages.map((message, index) => (
-               <div key={index} className="flex">
-              <div className="relative w-3/4">{message}</div>
-              </div> 
-            ))}
-      
+
+
+      <div className="max-w-sm flex"> 
+        <label htmlFor="rooms" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+        <select
+          value={room}
+          onChange={(e) => setRoom(e.target.value)} 
+          id="rooms" 
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option>Choose a chat room</option>
+          <option value="room-1">Room 1</option>
+          <option value="room-2">Room 2</option>
+          <option value="room-3">Room 3</option>
+          <option value="room-4">Room 4</option>
+        </select>
+      </div>
+
+
+      {messages.map((message, index) => (
+        <div key={index} className="flex">
+          <div className="relative w-3/4">{message}</div>
+        </div>
+      ))}
+
       <div className="flex">
         <div className="relative w-3/4">
           <input
             value={message}
-            onChange={(e) => setMessage(e.target.value)} 
-            type="search" 
-            id="search-dropdown" 
-            className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg rounded-s-gray-100 rounded-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" 
-            placeholder="Search" 
+            onChange={(e) => setMessage(e.target.value)}
+            type="search"
+            id="search-dropdown"
+            className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg rounded-s-gray-100 rounded-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+            placeholder="Search"
             required />
           <button
             onClick={handleMessage}
