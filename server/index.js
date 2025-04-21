@@ -68,18 +68,18 @@ app.all('*', (req, res) => {
 const userSocketMap = {}
 
 io.on('connection', (socket) => {
-  // console.log('connection', socket.id)
-  // console.log('connection handshake', socket.handshake)
+  console.log('connection', socket.id)
+  console.log('connection handshake', socket.handshake)
 
   //Get user id
-  // const userId = socket.handshake.query.userId
-  // if (userId != 'undefined') {
-  //   //Add user list
-  //   userSocketMap[userId] = socket.id
-  //   //Broadcast user list
-  //   io.emit('getOnlineUsers', Object.keys(userSocketMap))
-  // }
-  // console.log('userSocketMap', userSocketMap, Object.keys(userSocketMap))
+  const userId = socket.handshake.query.userId
+  if (userId != 'undefined') {
+    //Add user list
+    userSocketMap[userId] = socket.id
+    //Broadcast user list
+    io.emit('getOnlineUsers', Object.keys(userSocketMap))
+  }
+  console.log('userSocketMap', userSocketMap, Object.keys(userSocketMap))
 
   socket.on('room-1', (msg) => {
     console.log('message: ' + msg)
@@ -93,6 +93,10 @@ io.on('connection', (socket) => {
     console.log('message: ' + msg)
     io.emit('room-3', msg)
   })
+})
+
+io.on('disconnect', (socket) => {
+  console.log('disconnect', socket.id)
 })
 
 try {
