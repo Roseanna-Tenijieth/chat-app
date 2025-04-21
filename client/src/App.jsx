@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { Routes, Route } from "react-router"
 import { socket } from './socket'
 import PrivateRoute from "./PrivateRoute"
+import { ConnectionState } from "./ConnectionState"
 import Home from "./Home"
 import Dashboard from "./Dashboard"
 import Login from "./Login"
@@ -38,6 +39,7 @@ function App() {
   
   return (
     <>
+    <ConnectionState isConnected={isConnected} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route element={<PrivateRoute />}>
