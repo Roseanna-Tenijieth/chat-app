@@ -4,6 +4,7 @@ import { socket } from './socket'
 import PrivateRoute from "./PrivateRoute"
 import { ConnectionState } from "./ConnectionState"
 import Home from "./Home"
+import Rooms from "./Rooms"
 import Dashboard from "./Dashboard"
 import Login from "./Login"
 import NoMatch from "./NoMatch"
@@ -41,7 +42,8 @@ function App() {
     <>
     <ConnectionState isConnected={isConnected} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path='/' element={<Home />} />
+        <Route path='/rooms' element={<Rooms events={fooEvents} />} />
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
