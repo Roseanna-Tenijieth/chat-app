@@ -68,8 +68,8 @@ app.all('*', (req, res) => {
 const userSocketMap = {}
 
 io.on('connection', (socket) => {
-  console.log('connection', socket.id)
-  console.log('connection handshake', socket.handshake)
+  // console.log('connection', socket.id)
+  console.log('connection handshake', socket.handshake.query)
 
   //Get user id
   const userId = socket.handshake.query.userId
@@ -93,11 +93,12 @@ io.on('connection', (socket) => {
     console.log('message: ' + msg)
     io.emit('room-3', msg)
   })
+  socket.on('foo', (msg) => {
+    console.log('foo message: ' + msg)
+    io.emit('foo', msg)
+  })
 })
 
-io.on('disconnect', (socket) => {
-  console.log('disconnect', socket.id)
-})
 
 try {
   const mongoURL = process.env.MONGODB_URL || ""

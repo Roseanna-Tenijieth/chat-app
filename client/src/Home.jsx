@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import io from 'socket.io-client'
+import SplashCursor from './SplashCursor'
 
 const Home = () => {
   const userId = sessionStorage.getItem('userId')
@@ -19,20 +20,21 @@ const Home = () => {
   //   setUsers(socketUsers)
   // })
 
-  useEffect(() => {
-    console.log('room', room)
-  }, [room])
+  // useEffect(() => {
+  //   console.log('room', room)
+  // }, [room])
   
 
-  //Listen for room 1 events
+  // Listen for room 1 events
   socket.on(room, (msg) => {
     setMessages([...messages, msg])
   })
 
   const handleMessage = () => {
-    //Emit message
+    console.log('handleMessage', room, message)
+    // Emit message
     socket.emit(room, message)
-    //Clear message
+    // Clear message
     setMessage('')
   }
   return (
@@ -61,7 +63,7 @@ const Home = () => {
           <div className="relative w-3/4">{message}</div>
         </div>
       ))}
-
+{/* <SplashCursor/> */}
       <div className="flex">
         <div className="relative w-3/4">
           <input
