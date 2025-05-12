@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router"
 
-export const Navbar = ({ users  }) => {
+export const Navbar = ({ users }) => {
     const location = useLocation()
     return (
         <div>
