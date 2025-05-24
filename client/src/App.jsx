@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react"
 import { Routes, Route } from "react-router"
 import { socket } from './socket'
@@ -30,7 +31,7 @@ function App() {
     }
 
     function onGetOnlineUsers(userList) {
-      console.log('getOnlineUsers')
+      console.log('onGetOnlineUsers')
       setUsers(userList)
     }
 
